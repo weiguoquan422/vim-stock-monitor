@@ -2,7 +2,7 @@
 "gen window
 function! s:creat_stock_win()
     silent! execute 'botright vertical 53 new'
-    silent! execute 'edit ~/.stock.tmp'
+    silent! execute 'edit ~/stock.tmp'
     silent! execute 'vertical resize 53'
     setlocal winfixwidth
     call s:set_stock_win()
@@ -92,9 +92,13 @@ endfunction
 
 "main
 function! g:Stock_monitor_main()
-    call s:creat_stock_win()
-    call setline(1, 'name         cur_pri  high_pri low_pri  r/f%   rate  ')
-    call s:py_get_price()
+    if bufwinnr('stock.tmp') > 0
+        echo "is open"
+    else
+        echo "not open"
+        call s:creat_stock_win()
+        call setline(1, 'name         cur_pri  high_pri low_pri  r/f%   rate  ')
+        call s:py_get_price()
+    endif
 endfunction
-
 
