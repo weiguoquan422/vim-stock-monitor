@@ -47,13 +47,29 @@ class py_get_price_demo:
         quotation = easyquotation.use('qq')
         
         stock_config_list = [
-                'sh000001','shangzhengzs',
-                '159813',  'bandaoti-etf',
-                '512660',  'jungong-etf',
-                '159752',  'xinNY-etf',
-                '159767',  'dianchi-etf',
-                '513050',  'ZGU-etf',
-                '600305',  'hengScuye',
+                'sh000001','ShangZhengZS',
+                '159813',  'BanDaoTi-etf',
+                '512660',  'JunGong-etf' ,
+                '159752',  'XinNengY-etf',
+                '159767',  'DianChi-etf' ,
+                '512170',  'YiLiao-etf'  ,
+                '513050',  'ZhongGai-etf',
+                '513100',  'NaiZhi-etf'  ,
+                '159732',  'XiaoFDZ-etf' ,
+                '159611',  'DianLi-etf'  ,
+                '518880',  'HuangJin-etf',
+                '512200',  'FangDiC-etf' ,
+                '515790',  'GuangFu-etf' ,
+                '512690',  'Jiu-etf'     ,
+                '159842',  'QuanShan-etf',
+                '159825',  'NongYe-etf'  ,
+                '159766',  'LvYou-etf'   ,
+                '515220',  'MeiTang-etf' ,
+                '516950',  'JiJian-etf'  ,
+                '159740',  'HK-KeJi-etf' ,
+                '513060',  'HK-YiL-etf'  ,
+                '600305',  'HengSCuYe'   ,
+                '600559',  'LaoBaiGan'   ,
                 ]
         #stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
         len_config_lsit = len(stock_config_list)
