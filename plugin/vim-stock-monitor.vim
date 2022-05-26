@@ -1,4 +1,5 @@
 
+let g:cur_buf_id = ""
 "gen window
 function! s:creat_stock_win()
     silent! execute 'botright vertical 53 new'
@@ -6,6 +7,10 @@ function! s:creat_stock_win()
     silent! execute 'vertical resize 53'
     setlocal winfixwidth
     call s:set_stock_win()
+    "get cur_win_id and save
+    let g:cur_win_id = winnr()
+    "get cur_buf_id and save
+    let g:cur_buf_id = bufnr("")
 endfunction
 
 "set window options
@@ -106,9 +111,8 @@ endfunction
 "main
 function! g:Stock_monitor_main()
     if bufwinnr('stock.tmp') > 0
-        echo "is open"
+        silent! execute 'bdelete '.g:cur_buf_id
     else
-        echo "not open"
         "gene stock window
         call s:creat_stock_win()
         "print first line
