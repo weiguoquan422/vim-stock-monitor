@@ -41,7 +41,16 @@ class py_get_price_demo:
     def __init__(self):
         quotation = easyquotation.use('qq')
         
-        stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
+        stock_config_list = [
+                'sh000001','shangzhengzs',
+                '159813',  'bandaoti-etf',
+                '512660',  'jungong-etf',
+                '159752',  'xinNY-etf',
+                '159767',  'dianchi-etf',
+                '513050',  'ZGU-etf',
+                '600305',  'hengScuye',
+                ]
+        #stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
         len_config_lsit = len(stock_config_list)
 
         i = 0
@@ -52,6 +61,7 @@ class py_get_price_demo:
             i = i + 1
             res_stocks = quotation.stocks(cur_stock_idx)
             
+            #sh000001 is specical
             if cur_stock_idx == 'sh000001':
                 name_tmp = res_stocks['000001']['name']
                 cur_pri  = res_stocks['000001']['now']
@@ -70,16 +80,19 @@ class py_get_price_demo:
                 cur_s_name = name_tmp
 
             cur_s_name = cur_s_name.ljust(12)
+            #float to str
             cur_pri    = str(cur_pri )
             high_pri   = str(high_pri)
             low_pri    = str(low_pri )
             raise_f    = str(raise_f )
             rate       = str(rate    )
+            #left align
             cur_pri    = cur_pri.ljust(8)
             high_pri   = high_pri.ljust(8)
             low_pri    = low_pri.ljust(8)
             raise_f    = raise_f.ljust(6)
             rate       = rate.ljust(6)
+            #join and print
             r_str = ' '.join([cur_s_name, cur_pri, high_pri, low_pri, raise_f, rate])
             vim.current.buffer.append(r_str)
 
@@ -96,8 +109,11 @@ function! g:Stock_monitor_main()
         echo "is open"
     else
         echo "not open"
+        "gene stock window
         call s:creat_stock_win()
+        "print first line
         call setline(1, 'name         cur_pri  high_pri low_pri  r/f%   rate  ')
+        "get price by python
         call s:py_get_price()
     endif
 endfunction

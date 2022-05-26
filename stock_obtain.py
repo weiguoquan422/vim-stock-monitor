@@ -5,7 +5,15 @@ import vim
 
 quotation = easyquotation.use('qq')
 
-stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
+stock_config_list = [
+        'sh000001','shangzhengzs',
+        '159813',  'bandaoti-etf',
+        '512660',  'jungong-etf',
+        '159752',  'xinNY-etf',
+        '159767',  'dianchi-etf',
+        '513050',  'ZGU-etf',
+        '600305',  'hengScuye',
+        ]
 cur_stock = stock_config_list[0]
 cur_s_name = stock_config_list[1]
 res_stocks = quotation.stocks(cur_stock)
