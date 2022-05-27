@@ -1,18 +1,4 @@
 
-let g:cur_buf_id = ""
-"gen window
-function! s:creat_stock_win()
-    silent! execute 'botright vertical 53 new'
-    silent! execute 'edit ~/stock.tmp'
-    silent! execute 'vertical resize 53'
-    setlocal winfixwidth
-    call s:set_stock_win()
-    "get cur_win_id and save
-    let g:cur_win_id = winnr()
-    "get cur_buf_id and save
-    let g:cur_buf_id = bufnr("")
-endfunction
-
 "set window options
 function! s:set_stock_win()
     " Options for a non-file/control buffer.
@@ -34,6 +20,47 @@ function! s:set_stock_win()
     if v:version >= 703
         setlocal norelativenumber
     endif
+    iabc <buffer>
+    setlocal filetype=stock_monitor
+endfunction
+
+
+" Function: s:ExistsForTab()
+" Returns 1 if a stock win exists in the current tab
+function! s:ExistsForTab()
+    if !exists('t:Stock_monitor_BufName')
+        return
+    end
+
+    "check b:stock_monitor is still there and hasn't been e.g. :bdeleted
+    return !empty(getbufvar(bufnr(t:Stock_monitor_BufName), ''))
+endfunction
+
+
+function! s:creat_stock_win()
+    let l:splitLocation = 'botright '
+    let l:splitSize = 53
+
+    if !s:ExistsForTab()
+        let t:Stock_monitor_BufName = 'stock.tmp'
+        silent! execute l:splitLocation . 'vertical ' . l:splitSize . ' new'
+        silent! execute 'edit ' . t:Stock_monitor_BufName
+        silent! execute 'vertical resize '. l:splitSize
+    else
+        "if stock_monitor is bdeleted, dont need edit Stock_monitor_BufName again, but buffer Stock_monitor_BufName
+        silent! execute l:splitLocation . 'vertical ' . l:splitSize . ' split'
+        silent! execute 'buffer ' . t:Stock_monitor_BufName
+        silent! execute 'vertical resize '. l:splitSize
+    endif
+
+    setlocal winfixwidth
+
+    call s:set_stock_win()
+
+    if has('patch-7.4.1925')
+        clearjumps
+    endif
+
 endfunction
 
 
@@ -127,7 +154,8 @@ endfunction
 "main
 function! g:Stock_monitor_main()
     if bufwinnr('stock.tmp') > 0
-        silent! execute 'bdelete '.g:cur_buf_id
+        let l:stock_buf_id = bufnr('stock.tmp')
+        silent! execute 'bdelete '.l:stock_buf_id
     else
         "gene stock window
         call s:creat_stock_win()
