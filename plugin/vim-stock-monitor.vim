@@ -60,6 +60,8 @@ function! s:creat_stock_win()
     if has('patch-7.4.1925')
         clearjumps
     endif
+    "execute 'win_gotoid('.l:stock_buf_id.')'
+    call win_gotoid(g:cur_win_id)
 
 endfunction
 
@@ -85,7 +87,8 @@ function! s:OnEvent(job_id, data, event) dict
     elseif a:event == 'stderr'
     else
         if bufwinnr('stock.tmp') > 0
-            call s:refresh_win()
+            "autoread file when vim does an action, like a command in ex :!
+            set autoread | autocmd CursorHold * checktime
         endif
     endif
 endfunction
@@ -109,6 +112,8 @@ function! g:Stock_monitor_main()
         let l:stock_buf_id = bufnr('stock.tmp')
         silent! execute 'bdelete '.l:stock_buf_id
     else
+        "store current win_id
+        let g:cur_win_id = win_getid()
         "gene stock window
         call s:creat_stock_win()
         "get price by python, write in stock.tmp
