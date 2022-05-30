@@ -71,8 +71,6 @@ function! s:OnEvent(job_id, data, event) dict
     elseif a:event == 'stderr'
     else
         if bufwinnr('stock.tmp') > 0
-            "reload buffer:autoread file when vim does an action, like a command in ex :! or cursor isn't moved for 2s(default is 4s, set updatetime=2000 in .vimrc, then now is 2s)
-            silent! execute 'set autoread | autocmd CursorHold * checktime'
         endif
     endif
 endfunction
@@ -111,7 +109,15 @@ function! g:Stock_monitor_main()
         let l:stock_buf_id = bufnr('stock.tmp')
         silent! execute 'bdelete '.l:stock_buf_id
         silent! call timer_stop(g:get_stock_timer_id)
+        silent! execute 'unset autoread | autocmd CursorHold * checktime'
     else
+        "autoread file when vim does an action, like a command in ex :!
+        silent! set autoread
+        "autoread trigger:cursor isn't moved for 2s(default is 4s, set updatetime=2000 in .vimrc, then now is 2s)
+        "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
+        silent! autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * 
+                    \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+        silent! autocmd FileChangedShellPost * echohl WarningMsg | echo "stock_changed" | echohl None
         "store current win_id
         let g:cur_win_id = win_getid()
         "gene stock window
