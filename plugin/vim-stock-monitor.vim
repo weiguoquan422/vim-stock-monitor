@@ -87,7 +87,7 @@ function! s:OnEvent(job_id, data, event) dict
     elseif a:event == 'stderr'
     else
         if bufwinnr('stock.tmp') > 0
-            "autoread file when vim does an action, like a command in ex :!
+            "autoread file when vim does an action, like a command in ex :! or cursor isn't moved for 2s(default is 4s, set updatetime=2000 in .vimrc, then now is 2s)
             set autoread | autocmd CursorHold * checktime
         endif
     endif
