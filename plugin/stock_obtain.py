@@ -1,4 +1,5 @@
 import easyquotation
+import shutil
 
 class py_get_price_demo:
     def __init__(self):
@@ -33,7 +34,7 @@ class py_get_price_demo:
         #stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
         len_config_lsit = len(stock_config_list)
 
-        stockFile = open('/home/10292438@zte.intra/stock.tmp', 'w')
+        stockFile = open('/home/10292438@zte.intra/stock_back.tmp', 'w')
         stockFile.write('name         cur_pri  high_pri low_pri  r/f%   rate  \n') #print header
 
         i = 0
@@ -81,6 +82,7 @@ class py_get_price_demo:
             stockFile.write('\n')
 
         stockFile.close()
+        shutil.copy('/home/10292438@zte.intra/stock_back.tmp','/home/10292438@zte.intra/stock.tmp')
 
 
 

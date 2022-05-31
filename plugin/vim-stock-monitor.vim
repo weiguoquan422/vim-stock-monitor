@@ -82,6 +82,28 @@ let s:callbacks = {
 \ }
 
 
+function! s:set_autoread_and_trigger()
+    "autoread file when vim does an action, like a command in ex :!
+    silent! set autoread
+    "autoread trigger:cursor isn't moved for 2s(default is 4s, set updatetime=2000 in .vimrc, then now is 2s)
+    "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
+    silent! autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * 
+                \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+    silent! autocmd FileChangedShellPost * echohl WarningMsg | echo "stock_changed" | echohl None
+endfunction
+
+
+function! s:unset_autoread_and_trigger()
+    "autoread file when vim does an action, like a command in ex :!
+    silent! set noautoread
+    "autoread trigger:cursor isn't moved for 2s(default is 4s, set updatetime=2000 in .vimrc, then now is 2s)
+    "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
+    silent! autocmd! CursorHold,CursorHoldI,FocusGained,BufEnter * 
+                \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+    silent! autocmd! FileChangedShellPost * echohl WarningMsg | echo "stock_changed" | echohl None
+endfunction
+
+
 function! s:asyn_get_stock()
     let job1 = jobstart(['python3','/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor/plugin/stock_obtain.py'],s:callbacks)
 endfunction
@@ -107,17 +129,14 @@ endfunction
 function! g:Stock_monitor_main()
     if bufwinnr('stock.tmp') > 0
         let l:stock_buf_id = bufnr('stock.tmp')
+        "close stock win buf
         silent! execute 'bdelete '.l:stock_buf_id
+        "stop timer
         silent! call timer_stop(g:get_stock_timer_id)
-        silent! execute 'unset autoread | autocmd CursorHold * checktime'
+        "unset_autoread_and_trigger
+        silent! call s:unset_autoread_and_trigger()
     else
-        "autoread file when vim does an action, like a command in ex :!
-        silent! set autoread
-        "autoread trigger:cursor isn't moved for 2s(default is 4s, set updatetime=2000 in .vimrc, then now is 2s)
-        "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
-        silent! autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * 
-                    \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-        silent! autocmd FileChangedShellPost * echohl WarningMsg | echo "stock_changed" | echohl None
+        silent! call s:set_autoread_and_trigger()
         "store current win_id
         let g:cur_win_id = win_getid()
         "gene stock window
