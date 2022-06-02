@@ -1,4 +1,4 @@
-let g:vim_stock_monitor_install_dir = '/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor'
+let g:vim_stock_monitor_install_dir = '/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor/'
 
 "set window options
 function! s:set_stock_win()
@@ -43,7 +43,7 @@ function! s:creat_stock_win()
     let l:splitSize = 53
 
     if !s:ExistsForTab()
-        let t:Stock_monitor_BufName = '~/stock.tmp'
+        let t:Stock_monitor_BufName = g:vim_stock_monitor_install_dir . 'stock.tmp'
         silent! execute l:splitLocation . 'vertical ' . l:splitSize . ' new'
         silent! execute 'edit ' . t:Stock_monitor_BufName
         silent! execute 'vertical resize '. l:splitSize
@@ -90,7 +90,7 @@ function! s:set_autoread_and_trigger()
     "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
     silent! autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * 
                 \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-    "if stock.tmp autoreload, will echo 'sotck.tmp xxxL, xxxC' message, use
+    "if stock.tmp autoreload, will echo 'stock.tmp xxxL, xxxC' message, use
     "echo empty to clear the message
     silent! autocmd FileChangedShellPost * echo ""
 endfunction
@@ -108,12 +108,12 @@ endfunction
 
 
 function! s:asyn_get_stock()
-    let job1 = jobstart(['python3', g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
+    let job1 = jobstart(['python3', g:vim_stock_monitor_install_dir . 'plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
 endfunction
 
 
 function! Repeat_get_stock_once(timer)
-    let job2 = jobstart(['python3', g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
+    let job2 = jobstart(['python3', g:vim_stock_monitor_install_dir . 'plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
 endfunction
 
 

@@ -6,7 +6,9 @@ class py_get_price_demo:
     def __init__(self):
         quotation = easyquotation.use('qq')
         
-        path = ' '.join(sys.argv[1:])
+        vim_stock_monitor_path = ' '.join(sys.argv[1:])
+        stock_back_path = vim_stock_monitor_path + 'stock_back.tmp'
+        stock_path = vim_stock_monitor_path + 'stock.tmp'
         #config list read
         stock_config_list = [
                 'sh000001','ShangZhengZS',
@@ -36,7 +38,7 @@ class py_get_price_demo:
         #stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
         len_config_lsit = len(stock_config_list)
 
-        stockFile = open('/home/10292438@zte.intra/stock_back.tmp', 'w')
+        stockFile = open(stock_back_path, 'w')
         stockFile.write('name         cur_pri  high_pri low_pri  r/f%   rate  \n') #print header
 
         i = 0
@@ -83,9 +85,8 @@ class py_get_price_demo:
             stockFile.write(r_str)
             stockFile.write('\n')
 
-        stockFile.write(path)
         stockFile.close()
-        shutil.copy('/home/10292438@zte.intra/stock_back.tmp','/home/10292438@zte.intra/stock.tmp')
+        shutil.copy(stock_back_path, stock_path)
 
 
 
