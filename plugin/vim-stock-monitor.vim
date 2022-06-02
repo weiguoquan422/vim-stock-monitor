@@ -89,7 +89,9 @@ function! s:set_autoread_and_trigger()
     "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
     silent! autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * 
                 \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-    silent! autocmd FileChangedShellPost * echohl WarningMsg | echo "stock_changed" | echohl None
+    "if stock.tmp autoreload, will echo 'sotck.tmp xxxL, xxxC' message, use
+    "echo empty to clear the message
+    silent! autocmd FileChangedShellPost * echo ""
 endfunction
 
 
@@ -100,17 +102,18 @@ function! s:unset_autoread_and_trigger()
     "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
     silent! autocmd! CursorHold,CursorHoldI,FocusGained,BufEnter * 
                 \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-    silent! autocmd! FileChangedShellPost * echohl WarningMsg | echo "stock_changed" | echohl None
+    silent! autocmd! FileChangedShellPost * echo ""
 endfunction
 
 
+let g:vim_stock_monitor_install_dir = ''
 function! s:asyn_get_stock()
-    let job1 = jobstart(['python3','/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor/plugin/stock_obtain.py'],s:callbacks)
+    let job1 = jobstart(['python3',g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py'],s:callbacks)
 endfunction
 
 
 function! Repeat_get_stock_once(timer)
-    let job2 = jobstart(['python3','/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor/plugin/stock_obtain.py'],s:callbacks)
+    let job2 = jobstart(['python3',g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py'],s:callbacks)
 endfunction
 
 
@@ -128,6 +131,7 @@ endfunction
 "main
 function! g:Stock_monitor_main()
     if bufwinnr('stock.tmp') > 0
+        "get buf id
         let l:stock_buf_id = bufnr('stock.tmp')
         "close stock win buf
         silent! execute 'bdelete '.l:stock_buf_id
