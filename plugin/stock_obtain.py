@@ -1,6 +1,7 @@
 import easyquotation
 import shutil
 import sys
+from config_list import stock_config_list
 
 class py_get_price_demo:
     def __init__(self):
@@ -9,33 +10,6 @@ class py_get_price_demo:
         vim_stock_monitor_path = ' '.join(sys.argv[1:])
         stock_back_path = vim_stock_monitor_path + 'stock_back.tmp'
         stock_path = vim_stock_monitor_path + 'stock.tmp'
-        #config list read
-        stock_config_list = [
-                'sh000001','ShangZhengZS',
-                '159813',  'BanDaoTi-E'  ,
-                '512660',  'JunGong-E'   ,
-                '159752',  'XinNengY-E'  ,
-                '159767',  'DianChi-E'   ,
-                '512170',  'YiLiao-E'    ,
-                '159825',  'NongYe-E'    ,
-                '515220',  'MeiTan-E'    ,
-                '159611',  'DianLi-E'    ,
-                '513050',  'ZhongGai-E'  ,
-                '513100',  'NaiZhi-E'    ,
-                '159732',  'XiaoFeiDZ-E' ,
-                '518880',  'HuangJin-E'  ,
-                '512200',  'FangDiC-E'   ,
-                '515790',  'GuangFu-E'   ,
-                '512690',  'Jiu-E'       ,
-                '159842',  'QuanShang-E' ,
-                '159766',  'LvYou-E'     ,
-                '516950',  'JiJian-E'    ,
-                '159740',  'HK-KeJi-E'   ,
-                '513060',  'HK-YiL-E'    ,
-                '600305',  'HengSCuYe'   ,
-                '600559',  'LaoBaiGan'   ,
-                ]
-        #stock_config_list = ['sh000001','shangzhengzs','000001',  'zhongguopa','600519',  'guizhoumt']
         len_config_lsit = len(stock_config_list)
 
         stockFile = open(stock_back_path, 'w')

@@ -1,0 +1,28 @@
+
+#config list read
+stock_config_list = [
+'sh000001','ShangZhengZS',
+'159813',  'BanDaoTi-E'  ,
+'512660',  'JunGong-E'   ,
+'159752',  'XinNengY-E'  ,
+'159767',  'DianChi-E'   ,
+'516110',  'QiChe-E'     ,
+'512170',  'YiLiao-E'    ,
+'159825',  'NongYe-E'    ,
+'515220',  'MeiTan-E'    ,
+'159611',  'DianLi-E'    ,
+'513050',  'ZhongGai-E'  ,
+'513100',  'NaiZhi-E'    ,
+'159732',  'XiaoFeiDZ-E' ,
+'518880',  'HuangJin-E'  ,
+'512200',  'FangDiC-E'   ,
+'515790',  'GuangFu-E'   ,
+'512690',  'Jiu-E'       ,
+'159842',  'QuanShang-E' ,
+'159766',  'LvYou-E'     ,
+'516950',  'JiJian-E'    ,
+'159740',  'HK-KeJi-E'   ,
+'513060',  'HK-YiL-E'    ,
+'600305',  'HengSCuYe'   ,
+'600559',  'LaoBaiGan'   ,
+]
