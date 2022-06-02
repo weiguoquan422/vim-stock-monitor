@@ -1,4 +1,6 @@
-let g:vim_stock_monitor_install_dir = '/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor/'
+if !exists("g:vim_stock_monitor_install_dir")
+    let g:vim_stock_monitor_install_dir = '/home/.local/share/nvim/plugged/vim-stock-monitor/'
+endif
 
 "set window options
 function! s:set_stock_win()
@@ -120,8 +122,12 @@ endfunction
 "repeat_get_stock by timer
 "this while..endwhile is executed instantaneously, it gene a set of timer to
 "tell which times the Repeat_get_stock_once function is started
-let g:REPEAT_GET_STOCK_INTERVAL = 15
-let g:REPEAT_GET_STOCK_TIMES = 600
+if !exists("g:REPEAT_GET_STOCK_INTERVAL")
+    let g:REPEAT_GET_STOCK_INTERVAL = 15
+endif
+if !exists("g:REPEAT_GET_STOCK_TIMES")
+    let g:REPEAT_GET_STOCK_TIMES = 600
+endif
 function! s:repeat_get_stock()
     let g:get_stock_timer_id = timer_start(g:REPEAT_GET_STOCK_INTERVAL*1000, 'Repeat_get_stock_once',{'repeat': g:REPEAT_GET_STOCK_TIMES})
 endfunction

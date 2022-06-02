@@ -3,6 +3,3 @@ shangzhengzs 3146.74  3146.99  3145.87  10.00  999.99
 pinganyihang 14.86    14.88    13.32    5.83   0.98  
 
 timer 使用总是先报 echo 0 1 2 3
-是否能够取消掉 ~stock.tmp xxxL, xxxC 的 message?
-不依赖绝对路径
-配置文件单独提出来，而不是在代码里面
