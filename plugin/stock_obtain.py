@@ -1,10 +1,12 @@
 import easyquotation
 import shutil
+import sys
 
 class py_get_price_demo:
     def __init__(self):
         quotation = easyquotation.use('qq')
         
+        path = ' '.join(sys.argv[1:])
         #config list read
         stock_config_list = [
                 'sh000001','ShangZhengZS',
@@ -81,6 +83,7 @@ class py_get_price_demo:
             stockFile.write(r_str)
             stockFile.write('\n')
 
+        stockFile.write(path)
         stockFile.close()
         shutil.copy('/home/10292438@zte.intra/stock_back.tmp','/home/10292438@zte.intra/stock.tmp')
 

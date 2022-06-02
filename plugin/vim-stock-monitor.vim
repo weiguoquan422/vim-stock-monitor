@@ -1,3 +1,4 @@
+let g:vim_stock_monitor_install_dir = '/home/10292438@zte.intra/.local/share/nvim/plugged/vim-stock-monitor'
 
 "set window options
 function! s:set_stock_win()
@@ -61,7 +62,7 @@ function! s:creat_stock_win()
         clearjumps
     endif
     "execute 'win_gotoid('.l:stock_buf_id.')'
-    call win_gotoid(g:cur_win_id)
+    call win_gotoid(g:get_stock_cur_win_id)
 
 endfunction
 
@@ -106,14 +107,13 @@ function! s:unset_autoread_and_trigger()
 endfunction
 
 
-let g:vim_stock_monitor_install_dir = ''
 function! s:asyn_get_stock()
-    let job1 = jobstart(['python3',g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py'],s:callbacks)
+    let job1 = jobstart(['python3', g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
 endfunction
 
 
 function! Repeat_get_stock_once(timer)
-    let job2 = jobstart(['python3',g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py'],s:callbacks)
+    let job2 = jobstart(['python3', g:vim_stock_monitor_install_dir . '/plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
 endfunction
 
 
@@ -142,7 +142,7 @@ function! g:Stock_monitor_main()
     else
         silent! call s:set_autoread_and_trigger()
         "store current win_id
-        let g:cur_win_id = win_getid()
+        let g:get_stock_cur_win_id = win_getid()
         "gene stock window
         silent! call s:creat_stock_win()
         "get price by python, write in stock.tmp, first time for init
