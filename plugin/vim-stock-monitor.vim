@@ -1,9 +1,9 @@
 if !exists("g:vim_stock_monitor_install_dir")
-    let g:vim_stock_monitor_install_dir = '/home/.local/share/nvim/plugged/vim-stock-monitor/'
+    let g:vim_stock_monitor_install_dir = '/home/' . $USER . '/.local/share/nvim/plugged/vim-stock-monitor/'
 endif
 
 if !exists("g:vim_stock_monitor_tmp_file_dir")
-    let g:vim_stock_monitor_tmp_file_dir = '/home/'
+    let g:vim_stock_monitor_tmp_file_dir = '/home/' . $USER . '/'
 endif
 
 "set window options
