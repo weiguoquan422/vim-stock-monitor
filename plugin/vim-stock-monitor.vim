@@ -2,6 +2,10 @@ if !exists("g:vim_stock_monitor_install_dir")
     let g:vim_stock_monitor_install_dir = '/home/.local/share/nvim/plugged/vim-stock-monitor/'
 endif
 
+if !exists("g:vim_stock_monitor_tmp_file_dir")
+    let g:vim_stock_monitor_tmp_file_dir = '/home/'
+endif
+
 "set window options
 function! s:set_stock_win()
     " Options for a non-file/control buffer.
@@ -45,7 +49,7 @@ function! s:creat_stock_win()
     let l:splitSize = 53
 
     if !s:ExistsForTab()
-        let t:Stock_monitor_BufName = g:vim_stock_monitor_install_dir . 'stock.tmp'
+        let t:Stock_monitor_BufName = g:vim_stock_monitor_tmp_file_dir . 'stock.tmp'
         silent! execute l:splitLocation . 'vertical ' . l:splitSize . ' new'
         silent! execute 'edit ' . t:Stock_monitor_BufName
         silent! execute 'vertical resize '. l:splitSize
@@ -78,7 +82,7 @@ function! s:OnEvent(job_id, data, event) dict
     endif
 endfunction
 
-let s:callbacks = {
+let s:get_stock_callbacks = {
 \ 'on_stdout': function('s:OnEvent'),
 \ 'on_stderr': function('s:OnEvent'),
 \ 'on_exit': function('s:OnEvent')
@@ -110,26 +114,26 @@ endfunction
 
 
 function! s:asyn_get_stock()
-    let job1 = jobstart(['python3', g:vim_stock_monitor_install_dir . 'plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
+    let job1 = jobstart(['python3', g:vim_stock_monitor_install_dir . 'plugin/stock_obtain.py', g:vim_stock_monitor_tmp_file_dir],s:get_stock_callbacks)
 endfunction
 
 
-function! Repeat_get_stock_once(timer)
-    let job2 = jobstart(['python3', g:vim_stock_monitor_install_dir . 'plugin/stock_obtain.py', g:vim_stock_monitor_install_dir],s:callbacks)
+function! s:repeat_get_stock_once(timer_id)
+    silent! let job2 = jobstart(['python3', g:vim_stock_monitor_install_dir . 'plugin/stock_obtain.py', g:vim_stock_monitor_tmp_file_dir],s:get_stock_callbacks)
 endfunction
 
 
 "repeat_get_stock by timer
 "this while..endwhile is executed instantaneously, it gene a set of timer to
-"tell which times the Repeat_get_stock_once function is started
+"tell which times the repeat_get_stock_once function is started
 if !exists("g:REPEAT_GET_STOCK_INTERVAL")
-    let g:REPEAT_GET_STOCK_INTERVAL = 15
+    let g:REPEAT_GET_STOCK_INTERVAL = 10
 endif
 if !exists("g:REPEAT_GET_STOCK_TIMES")
-    let g:REPEAT_GET_STOCK_TIMES = 600
+    let g:REPEAT_GET_STOCK_TIMES = 900
 endif
 function! s:repeat_get_stock()
-    let g:get_stock_timer_id = timer_start(g:REPEAT_GET_STOCK_INTERVAL*1000, 'Repeat_get_stock_once',{'repeat': g:REPEAT_GET_STOCK_TIMES})
+    silent! let g:get_stock_timer_id = timer_start(g:REPEAT_GET_STOCK_INTERVAL*1000, function('s:repeat_get_stock_once'),{'repeat': g:REPEAT_GET_STOCK_TIMES})
 endfunction
 
 
