@@ -28,7 +28,7 @@ function! s:set_stock_win()
         setlocal norelativenumber
     endif
     iabc <buffer>
-    setlocal filetype=stock_monitor
+    setlocal filetype=stock
 endfunction
 
 
@@ -49,7 +49,7 @@ function! s:creat_stock_win()
     let l:splitSize = 53
 
     if !s:ExistsForTab()
-        let t:Stock_monitor_BufName = g:vim_stock_monitor_tmp_file_dir . 'stock.tmp'
+        let t:Stock_monitor_BufName = g:vim_stock_monitor_tmp_file_dir . 'monitor.stock'
         silent! execute l:splitLocation . 'vertical ' . l:splitSize . ' new'
         silent! execute 'edit ' . t:Stock_monitor_BufName
         silent! execute 'vertical resize '. l:splitSize
@@ -77,7 +77,7 @@ function! s:OnEvent(job_id, data, event) dict
     if a:event == 'stdout'
     elseif a:event == 'stderr'
     else
-        if bufwinnr('stock.tmp') > 0
+        if bufwinnr('monitor.stock') > 0
         endif
     endif
 endfunction
@@ -96,7 +96,7 @@ function! s:set_autoread_and_trigger()
     "https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim
     silent! autocmd CursorHold,CursorHoldI,FocusGained,BufEnter * 
                 \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-    "if stock.tmp autoreload, will echo 'stock.tmp xxxL, xxxC' message, use
+    "if monitor.stock autoreload, will echo 'monitor.stock xxxL, xxxC' message, use
     "echo empty to clear the message
     silent! autocmd FileChangedShellPost * echo ""
 endfunction
@@ -140,22 +140,22 @@ endfunction
 
 "main
 function! g:Stock_monitor_main()
-    if bufwinnr('stock.tmp') > 0
+    if bufwinnr('monitor.stock') > 0
         "get buf id
-        let l:stock_buf_id = bufnr('stock.tmp')
+        let l:stock_buf_id = bufnr('monitor.stock')
         "close stock win buf
         silent! execute 'bdelete '.l:stock_buf_id
         "stop timer
         silent! call timer_stop(g:get_stock_timer_id)
         "unset_autoread_and_trigger
-        silent! call s:unset_autoread_and_trigger()
+        "silent! call s:unset_autoread_and_trigger()
     else
         silent! call s:set_autoread_and_trigger()
         "store current win_id
         let g:get_stock_cur_win_id = win_getid()
         "gene stock window
         silent! call s:creat_stock_win()
-        "get price by python, write in stock.tmp, first time for init
+        "get price by python, write in monitor.stock, first time for init
         call s:asyn_get_stock()
         "repeat get stock
         silent! call s:repeat_get_stock()

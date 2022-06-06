@@ -9,7 +9,7 @@ class py_get_price_demo:
         
         vim_stock_monitor_path = ' '.join(sys.argv[1:])
         stock_back_path = vim_stock_monitor_path + 'stock_back.tmp'
-        stock_path = vim_stock_monitor_path + 'stock.tmp'
+        stock_path = vim_stock_monitor_path + 'monitor.stock'
         len_config_lsit = len(stock_config_list)
 
         stockFile = open(stock_back_path, 'w')
