@@ -48,8 +48,6 @@ class py_get_price_demo:
             low_pri    = str(low_pri )
             if raise_f > 0:
                 raise_f    = "+" + str(raise_f )
-            else if raise_f = 0:
-                raise_f    = " " + str(raise_f )
             else:
                 raise_f    = str(raise_f )
             rate       = str(rate    )
