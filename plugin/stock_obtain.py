@@ -13,7 +13,7 @@ class py_get_price_demo:
         len_config_lsit = len(stock_config_list)
 
         stockFile = open(stock_back_path, 'w')
-        stockFile.write('name         cur_pri  high_pri low_pri  r/f%   rate  \n') #print header
+        stockFile.write('name         r/f%   rate   cur_pri  high_pri low_pri  \n') #print header
 
         i = 0
         while i < len_config_lsit:
@@ -46,7 +46,12 @@ class py_get_price_demo:
             cur_pri    = str(cur_pri )
             high_pri   = str(high_pri)
             low_pri    = str(low_pri )
-            raise_f    = str(raise_f )
+            if raise_f > 0:
+                raise_f    = "+" + str(raise_f )
+            else if raise_f = 0:
+                raise_f    = " " + str(raise_f )
+            else:
+                raise_f    = str(raise_f )
             rate       = str(rate    )
             #left align
             cur_pri    = cur_pri.ljust(8)
@@ -55,7 +60,7 @@ class py_get_price_demo:
             raise_f    = raise_f.ljust(6)
             rate       = rate.ljust(6)
             #join and print
-            r_str = ' '.join([cur_s_name, cur_pri, high_pri, low_pri, raise_f, rate])
+            r_str = ' '.join([cur_s_name, raise_f, rate, cur_pri, high_pri, low_pri])
             stockFile.write(r_str)
             stockFile.write('\n')
 
