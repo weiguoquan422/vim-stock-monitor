@@ -1,5 +1,11 @@
-name         cur_pri  high_pri low_pri  r/f%   rate  
-shangzhengzs 3146.74  3146.99  3145.87  10.00  999.99
-pinganyihang 14.86    14.88    13.32    5.83   0.98  
-
-timer 使用总是先报 echo 0 1 2 3
+name         r/f%   rate   cur_pri  high_pri low_pri  
+ShangZhengZS +0.68  1.13   3263.79  3266.63  3216.01 
+BanDaoTi-E   -0.38  0.95   0.778    0.788    0.765   
+JunGong-E    -1.07  1.06   1.112    1.13     1.094   
+XinNengY-E   -0.21  0.81   0.943    0.949    0.92    
+DianChi-E    +1.58  0.84   0.898    0.901    0.868   
+QiChe-E      +2.7   1.32   1.142    1.146    1.101   
+YiLiao-E     +2.07  1.5    0.543    0.549    0.53    
+NongYe-E     +1.07  1.98   0.947    0.948    0.928   
+NengYuan-E   +4.67  1.26   1.187    1.188    1.134   
+MeiTan-E     +5.42  1.55   2.606    2.609    2.482   
